@@ -1,4 +1,5 @@
 import allure
+from SeleniumFrm import utils
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -42,6 +43,8 @@ def test():
     try:
         driver = webdriver.Firefox()
         # driver = webdriver.Chrome()
+
+        utils.takeScreenshot(driver)
 
         initiate(driver)
         searchWord(driver)

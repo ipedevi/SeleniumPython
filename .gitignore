@@ -1,2 +1,9 @@
 .git/
 .idea/
+/.pytest_cache/
+/results/
+/.pytest_cache/**
+/geckodriver.log
+**/**/*.log
+**/*.log
+*.log
