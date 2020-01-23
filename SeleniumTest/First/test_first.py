@@ -8,8 +8,8 @@ wordToSeek = "TestAcademy"
 urlToCheck = "www.spanishtestacademy.com"
 try:
 
-    driver = webdriver.Firefox()
-    # driver = webdriver.Chrome()
+    # driver = webdriver.Firefox()
+    driver = webdriver.Chrome()
     driver.get("https://www.google.es")
 
     element = driver.find_element_by_xpath("id('tsf')//input[@type= 'text']")
