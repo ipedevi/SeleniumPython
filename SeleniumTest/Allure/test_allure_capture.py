@@ -1,5 +1,4 @@
 import allure
-from SeleniumFrm import utils
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -10,19 +9,23 @@ from selenium.webdriver.support import expected_conditions as ec
  #    pip install allure-pytest
  #    py.test --alluredir=./results ./SeleniumTest/test_allure.py
  #    allure serve C:\Users\Ivan\PycharmProjects\SeleniumAutomation\results
+from SeleniumFrm.seleniumFrm import Selenium
 
 wordToSeek = "TestAcademy"
 urlToCheck = "www.spanishtestacademy.com"
 
+
 @allure.step
 def initiate(driver):
     driver.get("https://www.google.es")
+
 
 @allure.step
 def searchWord(driver):
     element = driver.find_element_by_xpath("id('tsf')//input[@type= 'text']")
     element.send_keys(wordToSeek)
     element.send_keys(Keys.RETURN)
+
 
 @allure.step
 def checkUrl(driver):
@@ -34,23 +37,25 @@ def checkUrl(driver):
     assert urlToCheck in element.text, "Elemento no encontrado"
     print("TEST2: URL 'www.spanishtestacademy.com' encontrada en la primera posicion con Allure.")
     # return element.text
+    Selenium.take_screenshot(driver)
+
 
 @allure.epic('EPIC 1')
-@allure.description('DESCRIPTION 1')
-@allure.feature('FEATURE 1')
-@allure.story('STORY 1')
+@allure.description('DESCRIPTION 2')
+@allure.feature('FEATURE 2')
+@allure.story('STORY 2')
 def test():
     try:
-        driver = webdriver.Firefox()
-        # driver = webdriver.Chrome()
-
-        utils.takeScreenshot(driver)
+        driver = Selenium().get_selenium_frm()
 
         initiate(driver)
         searchWord(driver)
         checkUrl(driver)
-        # texto = checkUrl(driver)
+        # Selenium.take_screenshot(driver)
 
+    except Exception as e:
+        print("Error en el test: ")
+        print(e)
     finally:
         driver.close()
 
