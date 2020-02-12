@@ -34,7 +34,7 @@ def get_img_name():
 
 
 class Selenium:
-
+    driver = None
     def __init__(self, *args):
 
         if len(args) == 1:
@@ -43,16 +43,20 @@ class Selenium:
             browser = "chrome"
 
         if browser == "firefox":
-            self.python_selenium = webdriver.Firefox()
+            self.driver = webdriver.Firefox()
         # elif browser == "chrome":
         else:
-            self.python_selenium = webdriver.Chrome()
+            self.driver = webdriver.Chrome()
+        driver = self.driver
         self.get_selenium_frm()
 
     def get_selenium_frm(self):
-        return self.python_selenium
+        return self.driver
 
-    @allure.step
+    def __set__(self, newdriver):
+        self.driver = newdriver
+
+    # @allure.step
     def take_screenshot(driver):
         # self.python_selenium.save_screenshot(name)
         name = get_img_name()
@@ -60,3 +64,9 @@ class Selenium:
         # allure.attach("Screenshot")
         allure.attach.file(name, name="Screenshot", attachment_type=allure.attachment_type.PNG)
         # allure.attach(driver.save_screenshot(get_img_name()), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+    @classmethod
+    @allure.step("Closing Webdriver")
+    def close(cls):
+        cls.take_screenshot(cls.driver)
+        cls.driver.close()
