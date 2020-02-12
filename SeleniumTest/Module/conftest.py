@@ -1,7 +1,7 @@
 import pytest
 import allure
 from selenium import webdriver
-from SeleniumTest.Moduled import myconfig
+from SeleniumTest.Module import myconfig
 from SeleniumFrm.seleniumFrm import Selenium
 
 

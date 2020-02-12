@@ -11,16 +11,16 @@ from SeleniumTest.Module import myconfig
 #    allure serve C:\utils\workspace\Python\SeleniumPython\results
 
 
-wordToSeek = "TestAcademy"
-urlToCheck = "www.spanishtestacademy.com"
+wordToSeek = "microsoft"
+urlToCheck = "www.microsoft.com"
 
 
 class TestClass:
 
     @allure.epic('EPIC OBJECT ORIENTED')
-    @allure.description('DESCRIPTION TEST 1')
-    @allure.feature('FEATURE TEST 1')
-    @allure.story('STORY TEST 1')
+    @allure.description('DESCRIPTION TEST 3')
+    @allure.feature('FEATURE TEST 3')
+    @allure.story('STORY TEST 3')
     def test(self):
         try:
             google_search_page = GoogleSearchPage(Selenium.driver)
@@ -29,10 +29,10 @@ class TestClass:
 
             google_result_page = GoogleResultPage(Selenium.driver)
             assert google_result_page.check_url(urlToCheck)
-            print("TEST5: URL 'www.spanishtestacademy.com' encontrada en la primera posicion con PageObjects.")
+            print("TEST5c: URL 'www.expoqa.com' encontrada en la primera posicion.")
 
         finally:
-            Selenium.close()
+            Selenium.driver.close()
 
 
 if __name__ == "__main__":

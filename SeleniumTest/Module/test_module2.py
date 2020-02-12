@@ -3,7 +3,7 @@ from selenium import webdriver
 from SeleniumFrm.seleniumFrm import Selenium
 from SeleniumTest.WithPageObjects.PageObjects.GoogleResultsPage import GoogleResultPage
 from SeleniumTest.WithPageObjects.PageObjects.GoogleSearchPage import GoogleSearchPage
-from SeleniumTest.Moduled import myconfig
+from SeleniumTest.Module import myconfig
 
 # Para ejecutar, hacerlo desde powershell/terminal segun:
 #    pip install allure-pytest
@@ -22,7 +22,6 @@ class TestClass:
     @allure.feature('FEATURE TEST 2')
     @allure.story('STORY TEST 2')
     def test(self):
-        print("coso")
         try:
             google_search_page = GoogleSearchPage(Selenium.driver)
             google_search_page.initiate(myconfig.urlInicial)
