@@ -1,6 +1,6 @@
 from nose import with_setup  # optional
 
-from SeleniumTest.Notest.unnecesarry_math import multiply
+from Source.Test.Notest import multiply
 
 
 def setup_module(module):

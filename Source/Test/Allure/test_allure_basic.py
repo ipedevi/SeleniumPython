@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
  # Para ejecutar, hacerlo desde powershell/terminal segun:
  #    pip install allure-pytest
- #    py.test --alluredir=./results ./SeleniumTest/test_allure.py
+ #    py.test --alluredir=./results ./Test/test_allure.py
  #    allure serve C:\Users\Ivan\PycharmProjects\SeleniumAutomation\results
 
 wordToSeek = "TestAcademy"

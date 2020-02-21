@@ -1,11 +1,11 @@
 import allure
-from SeleniumFrm.seleniumFrm import Selenium
-from SeleniumTest.WithPageObjects.PageObjects.GoogleResultsPage import GoogleResultPage
-from SeleniumTest.WithPageObjects.PageObjects.GoogleSearchPage import GoogleSearchPage
+from Source.Framework import Selenium
+from Source.Test.WithPageObjects import GoogleResultPage
+from Source.Test.WithPageObjects.PageObjects.GoogleSearchPage import GoogleSearchPage
 
 # Para ejecutar, hacerlo desde powershell/terminal segun:
 #    pip install allure-pytest
-#    py.test --alluredir=./results ./SeleniumTest/Allure
+#    py.test --alluredir=./results ./Test/Allure
 #    allure serve C:\Users\Ivan\PycharmProjects\SeleniumAutomation\results
 
 

@@ -1,5 +1,4 @@
 import allure
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,9 +6,9 @@ from selenium.webdriver.support import expected_conditions as ec
 
  # Para ejecutar, hacerlo desde powershell/terminal segun:
  #    pip install allure-pytest
- #    py.test --alluredir=./results ./SeleniumTest/test_allure.py
+ #    py.test --alluredir=./results ./Test/test_allure.py
  #    allure serve C:\Users\Ivan\PycharmProjects\SeleniumAutomation\results
-from SeleniumFrm.seleniumFrm import Selenium
+from Source.Framework import Selenium
 
 wordToSeek = "TestAcademy"
 urlToCheck = "www.spanishtestacademy.com"

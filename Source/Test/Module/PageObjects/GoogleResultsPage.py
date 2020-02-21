@@ -2,9 +2,9 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from SeleniumFrm.BasePage import BasePage
+from Source.Framework.BasePage import BasePage
 
-from SeleniumFrm.seleniumFrm import Selenium
+from Source.Framework import Selenium
 
 first_result_xpath = "id('rso')/div[1]"
 

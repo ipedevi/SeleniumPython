@@ -1,5 +1,5 @@
 import allure
-from SeleniumFrm.BasePage import BasePage
+from Source.Framework.BasePage import BasePage
 from selenium.webdriver.common.keys import Keys
 
 search_bar_xpath = "id('tsf')//input[@type= 'text']"

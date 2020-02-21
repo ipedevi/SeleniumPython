@@ -1,20 +1,23 @@
 import os
-from datetime import datetime
-
 import allure
-from allure_commons.types import AttachmentType
+from datetime import datetime
 from selenium import webdriver
 from pathlib import Path
+from Source.Framework import myconfig
 
+""" This class is used to manage Selenium driver """
+
+""" CONS """
 SEPARATOR = os.path.sep
 
 
 def get_project_root() -> Path:
-    """Returns project root folder."""
-    return Path(__file__).parent.parent
+    """ Returns project root folder. """
+    return Path(__file__).parent.parent.parent
 
 
 def get_img_name():
+    """ Returns an unique name for screenshots based on time  """
     hora = datetime.now().time()
     root_dir = get_project_root()
     name = str(root_dir)
@@ -33,40 +36,49 @@ def get_img_name():
     return name
 
 
-class Selenium:
-    driver = None
-    def __init__(self, *args):
+def take_screenshot(driver):
+    """ Function to take screenshots """
+    name = get_img_name()
+    driver.save_screenshot(name)
+    allure.attach.file(name, name="Screenshot", attachment_type=allure.attachment_type.PNG)
 
+
+def check(boolean_var, driver):
+    """ Function to add extra capabilities to assert """
+    if not boolean_var:
+        take_screenshot(driver)
+    assert boolean_var
+
+
+class Selenium:
+    """ Class to manage the driver """
+    driver = None
+
+    def __init__(self, *args):
+        """ Where the driver is initialized. Now, it only works with firefox and chrome.  """
         if len(args) == 1:
             browser = args[0]
         else:
-            browser = "chrome"
-
+            browser = myconfig.default_browser
         if browser == "firefox":
             self.driver = webdriver.Firefox()
         # elif browser == "chrome":
         else:
             self.driver = webdriver.Chrome()
-        driver = self.driver
+        self.driver.implicitly_wait(10) # seconds
         self.get_selenium_frm()
 
     def get_selenium_frm(self):
+        """ Getter """
         return self.driver
 
     def __set__(self, newdriver):
+        """ Setter """
         self.driver = newdriver
-
-    # @allure.step
-    def take_screenshot(driver):
-        # self.python_selenium.save_screenshot(name)
-        name = get_img_name()
-        driver.save_screenshot(name)
-        # allure.attach("Screenshot")
-        allure.attach.file(name, name="Screenshot", attachment_type=allure.attachment_type.PNG)
-        # allure.attach(driver.save_screenshot(get_img_name()), name="Screenshot", attachment_type=AttachmentType.PNG)
 
     @classmethod
     @allure.step("Closing Webdriver")
     def close(cls):
-        cls.take_screenshot(cls.driver)
+        """ Where the driver is closed """
+        take_screenshot(cls.driver)
         cls.driver.close()
