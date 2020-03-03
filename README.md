@@ -18,3 +18,11 @@ Then, in order to execute, you need to use next sentences in DNVGL directory:
 - py.test -s -v -n=3 --alluredir=./results ./Source/Test/     (with pytest-xdist)
 - py.test --workers auto --alluredir=./results ./Source/Test/    (with pytest-parallel, not for WindowsOS)
 - allure serve < DNVGL directory >\results
+
+# Modularized
+Used to read conf file + properties + ...
+
+Order:
+1) --browser=firefox/chrome/chrome-local-webdriver/firefox-local-webdriver
+2) looks in myframework.config (in root folder)
+3) Take standard as defined in Config()
