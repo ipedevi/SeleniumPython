@@ -1,13 +1,15 @@
 import pytest
 import allure
 from selenium import webdriver
-from Source.Framework import myconfig
+from Source.Test.Module import myconfig
 from Source.Framework.seleniumFrm import Selenium
+
 
 def pytest_runtest_setup(item):
     # called for running each test in 'a' directory
     print(item)
     print("setting up!!!")
+
 
 @pytest.fixture(autouse=True)
 def populate_globals():

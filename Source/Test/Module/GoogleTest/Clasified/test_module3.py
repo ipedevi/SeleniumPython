@@ -1,8 +1,9 @@
 import allure
 from selenium import webdriver
-from Source.Framework import Selenium, myconfig
-from Source.Test.WithPageObjects import GoogleResultPage
-from Source.Test.WithPageObjects.PageObjects.GoogleSearchPage import GoogleSearchPage
+from Source.Framework.seleniumFrm import Selenium
+from Source.Test.Module.PageObjects.GoogleResultsPage import GoogleResultPage
+from Source.Test.Module.PageObjects.GoogleSearchPage import GoogleSearchPage
+from Source.Test.Module import myconfig
 
 # Para ejecutar, hacerlo desde powershell/terminal segun:
 #    pip install allure-pytest
