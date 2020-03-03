@@ -1,3 +1,2 @@
-# Selenium
-browser = "chrome"
+# [Auto Parallel]
 urlInicial = "https://www.google.es"

@@ -1,14 +1,17 @@
+import argparse
 import os
+from configparser import ConfigParser
 import allure
 from datetime import datetime
+import pytest
 from selenium import webdriver
 from pathlib import Path
-from Source.Framework import myconfig
+from Source.Framework.config import Config
 
 """ This class is used to manage Selenium driver """
 
 """ CONS """
-SEPARATOR = os.path.sep
+config = Config()
 
 
 def get_project_root() -> Path:
@@ -21,19 +24,72 @@ def get_img_name():
     hora = datetime.now().time()
     root_dir = get_project_root()
     name = str(root_dir)
-    name += SEPARATOR
+    name += config.SEPARATOR
     name += "results"
     if not os.path.exists(name):
         os.makedirs(name)
-    name += SEPARATOR
+    name += config.SEPARATOR
     name += "images"
     if not os.path.exists(name):
         os.makedirs(name)
-    name += SEPARATOR
+    name += config.SEPARATOR
     name += "screenshot_"
     name += hora.strftime("%m%d%Y_%H%M%S")
     name += ".png"
     return name
+
+
+def load_configuration():
+    ''' Used to read conf file + properties + ...
+    order:
+    1) --browser=firefox
+    2) looks in myframework.config (in root folder)
+    3) Take standard as defined in Config()
+    '''
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-b', '--browser', help='Browser to open selenium', required=False)
+    args = parser.parse_known_args()
+    if args[0].__getattribute__("browser") is not None:
+        config.default_browser = args[0].__getattribute__("browser")
+    else:
+        parser = ConfigParser()
+        config_file = str(get_project_root()) + config.SEPARATOR + 'myframework.config'
+        parser.read(config_file)
+        if parser.has_option("SELENIUM", "default_browser"):
+            config.default_browser = str(parser.get("SELENIUM", "default_browser")).replace('"', "")
+
+
+@pytest.fixture(scope="session")
+def setup(request):
+    """ Used to initiate Selenium automatically when execute pytest, called every test """
+    load_configuration()
+
+    if config.default_browser == "firefox":
+        allure.step("Starting Firefox.")
+        Selenium.driver = webdriver.Firefox()
+    elif config.default_browser == "chrome":
+        allure.step("Starting Chrome.")
+        Selenium.driver = webdriver.Chrome()
+    elif config.default_browser == "chrome-local-webdriver":
+        allure.step("Starting Chrome in webdriver local.")
+        options = webdriver.ChromeOptions()
+        capabilities = options.to_capabilities()
+        Selenium.driver = webdriver.Remote(
+            command_executor=config.command_executor,
+            desired_capabilities=capabilities)
+    elif config.default_browser == "firefox-local-webdriver":
+        allure.step("Starting Firefox in webdriver local.")
+        options = webdriver.FirefoxOptions()
+        capabilities = options.to_capabilities()
+        Selenium.driver = webdriver.Remote(
+            command_executor=config.command_executor,   # 'http://127.0.0.1:4444/wd/hub'
+            desired_capabilities=capabilities)
+    else:
+        allure.step("Using standard Browser (chrome).")
+        Selenium.driver = webdriver.Chrome()
+    Selenium.driver.implicitly_wait(config.implicit_wait)  # 10 seconds
+    Selenium.driver.maximize_window()
 
 
 def take_screenshot(driver):
@@ -54,20 +110,6 @@ class Selenium:
     """ Class to manage the driver """
     driver = None
 
-    def __init__(self, *args):
-        """ Where the driver is initialized. Now, it only works with firefox and chrome.  """
-        if len(args) == 1:
-            browser = args[0]
-        else:
-            browser = myconfig.default_browser
-        if browser == "firefox":
-            self.driver = webdriver.Firefox()
-        # elif browser == "chrome":
-        else:
-            self.driver = webdriver.Chrome()
-        self.driver.implicitly_wait(10) # seconds
-        self.get_selenium_frm()
-
     def get_selenium_frm(self):
         """ Getter """
         return self.driver
@@ -81,4 +123,4 @@ class Selenium:
     def close(cls):
         """ Where the driver is closed """
         take_screenshot(cls.driver)
-        cls.driver.close()
+        cls.driver.quit()
